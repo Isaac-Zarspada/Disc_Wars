@@ -50,6 +50,31 @@ orangeuser_rect = orangeuser_surf.get_rect(midbottom = (120, HEIGHT/2))
 player_speed = 0
 opponent_speed = 0
 
+bluedisc_speed_y = 7
+bluedisc_speed_x = 7
+
+orangedisc_speed_y = 7
+orangedisc_speed_x = 7
+
+def bluedisc_animation(disc,xspeed,yspeed):
+    disc.x += xspeed
+    disc.y += yspeed
+    if disc.top <= 0 or disc.bottom >= HEIGHT:
+        yspeed *= -1
+    if disc.left <= 0 or disc.right >= WIDTH:
+        # Check color of disc 
+        # Check goal color
+        # If color is opposite then function game point (Function score point)
+        # Health bar go down, 4 stages 
+
+
+
+
+    
+
+
+
+
 
 while True:
     for event in p.event.get():
