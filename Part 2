@@ -1,9 +1,0 @@
-class Disc: 
-    def __init__(self, color, positionx, positiony, speedx, speedy):
-        self.color = color
-        self. positionx = positionx
-        self.positiony = positiony
-        self.speedx = speedx
-        self.speedy = speedy
-
-bluedisc = Disc('blue', WIDTH/2, HEIGHT/2,speedx = 5, speedy = 5)

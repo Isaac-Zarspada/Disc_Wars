@@ -1,6 +1,7 @@
 import pygame as p, sys
 import random as rand
 
+
 BLACK = (0,0,0)
 RED = (255,0,0)
 BLUE = (0,0,255)
@@ -51,42 +52,11 @@ orangeuser_rect = orangeuser_surf.get_rect(midbottom = (120, HEIGHT/2))
 player_speed = 0
 opponent_speed = 0
 
-bluedisc_speed_y = 7
-bluedisc_speed_x = 7
-
 orangedisc_speed_y = 7
 orangedisc_speed_x = 7
 
-# def bluedisc_animation(disc,xspeed,yspeed):
-#     disc.x += xspeed
-#     disc.y += yspeed
-#     if disc.top <= 0 or disc.bottom >= HEIGHT:
-#         yspeed *= -1
-#     if disc.left <= 0 or disc.right >= WIDTH:
-#         pass
-        # Check color of disc 
-        # Check goal color
-        # If color is opposite then function game point (Function score point)
-        # Health bar go down, 4 stages 
-
 # disc animation
-
-def disc_animation():
-    global orangedisc_speed_x, bluedisc_speed_x, orangedisc_speed_y, bluedisc_speed_y
-    bluedisc_rect.x += bluedisc_speed_x
-    bluedisc_rect.y += bluedisc_speed_y
-    
-    orangedisc_rect.x += orangedisc_speed_x
-    orangedisc_rect.y += orangedisc_speed_y
-if bluedisc_rect.top <= 0 or bluedisc_rect.bottom >= HEIGHT:
-    if orangedisc_rect.top <=0 or orangedisc_rect.bottom >= HEIGHT
-
-
-
-
-
-
-
+vectors = [7, 7]
 
 
     
@@ -97,14 +67,14 @@ if bluedisc_rect.top <= 0 or bluedisc_rect.bottom >= HEIGHT:
 #     yspeed *= rand.choice ((1,-1))
 #     return xspeed, yspeed
 
-def disc_restart():
-    global orangedisc_speed_x, bluedisc_speed_x, orangedisc_speed_y, bluedisc_speed_y
-    orangedisc_speed_x *= rand.choice((1,-1))
-    orangedisc_speed_y*= rand.choice((1,-1))
-    bluedisc_speed_x*= rand.choice((1,-1))
-    bluedisc_speed_y*= rand.choice((1,-1))
-    bluedisc_rect.center = (WIDTH/2, HEIGHT/2)
-    orangedisc_rect.center = (WIDTH/2, HEIGHT/2)
+# def disc_restart():
+#     global orangedisc_speed_x, bluedisc_speed_x, orangedisc_speed_y, bluedisc_speed_y
+#     orangedisc_speed_x *= rand.choice((1,-1))
+#     orangedisc_speed_y*= rand.choice((1,-1))
+#     bluedisc_speed_x*= rand.choice((1,-1))
+#     bluedisc_speed_y*= rand.choice((1,-1))
+#     bluedisc_rect.center = (WIDTH/2, HEIGHT/2)
+#     orangedisc_rect.center = (WIDTH/2, HEIGHT/2)
 
         
 
@@ -142,6 +112,7 @@ while True:
             
     opponent_animation(orangeuser_rect)
     player_animation(blueuser_rect)
+    disc_animation(bluedisc_rect)
                        
 #visuals
     screen.fill(BLACK)
