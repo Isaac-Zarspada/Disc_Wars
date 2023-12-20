@@ -1,52 +1,17 @@
 import pygame as p, sys
 import random as rand
+from objects import Disc, Player
+import os
+from dotenv import load_dotenv, find_dotenv
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path)
 
-
-BLACK = (0,0,0)
-RED = (255,0,0)
-BLUE = (0,0,255)
-WHITE = (255,255,255)
-ORANGE = (255,165,0)
-
-TICKSPEED  = 60
-WIDTH = 1200
-HEIGHT = 800
-
-def player_animation(player):
-    player.y += player_speed   
-    if player.top <= 0:
-        player.top =0            
-    if player.bottom >= HEIGHT:
-        player.bottom =HEIGHT 
-
-def opponent_animation(opponent):
-    opponent.y += opponent_speed   
-    if opponent.top <= 0:
-        opponent.top =0            
-    if opponent.bottom >= HEIGHT:
-        opponent.bottom =HEIGHT                       
-
-
-p.init()
-clock = p.time.Clock()
-screen= p.display.set_mode((WIDTH,HEIGHT))
-
-#compnents
-opponent = p.Rect(60,HEIGHT/2,70,130)
-player = p.Rect(WIDTH-100, HEIGHT/2, 70,130)
-orangedisc_surf = p.image.load('Disc_Wars/assets/OrangeTronRing_1.png').convert_alpha()
-bluedisc_surf = p.image.load('Disc_Wars/assets/BlueTronRing_1.png').convert_alpha()
-
-blueuser_surf = p.image.load('Disc_Wars/assets/BlueTronGuy_2.png').convert_alpha()
-orangeuser_surf = p.image.load('Disc_Wars/assets/TronGuyOrange_1.png').convert_alpha()
-
-orangedisc_rect = orangedisc_surf.get_rect(midbottom = (120,HEIGHT/2))
-bluedisc_rect = bluedisc_surf.get_rect(midbottom = (WIDTH-120,HEIGHT/2))
-
-blueuser_rect = blueuser_surf.get_rect(midbottom = (WIDTH -50, HEIGHT/2))
-orangeuser_rect = orangeuser_surf.get_rect(midbottom = (120, HEIGHT/2))
-
-
+WIDTH = int(os.getenv('WIDTH'))
+HEIGHT = int(os.getenv('HEIGHT'))
+BLACK =[0 ,0, 0]
+WHITE = [255, 255, 255]
+TICKSPEED = int(os.getenv('TICKSPEED'))
+print(type(BLACK))
 
 # Variables
 player_speed = 0
@@ -56,90 +21,61 @@ orangedisc_speed_y = 7
 orangedisc_speed_x = 7
 
 # disc animation
-vectors = [7, 7]
 
+p.init()
+clock = p.time.Clock()
+screen= p.display.set_mode((WIDTH,HEIGHT))
 
-    
-
-# def disc_restart(disc, xspeed, yspeed, player):
-#     disc.center = player.center
-#     xspeed *= rand.choice ((1,-1))
-#     yspeed *= rand.choice ((1,-1))
-#     return xspeed, yspeed
-
-# def disc_restart():
-#     global orangedisc_speed_x, bluedisc_speed_x, orangedisc_speed_y, bluedisc_speed_y
-#     orangedisc_speed_x *= rand.choice((1,-1))
-#     orangedisc_speed_y*= rand.choice((1,-1))
-#     bluedisc_speed_x*= rand.choice((1,-1))
-#     bluedisc_speed_y*= rand.choice((1,-1))
-#     bluedisc_rect.center = (WIDTH/2, HEIGHT/2)
-#     orangedisc_rect.center = (WIDTH/2, HEIGHT/2)
-
-        
+# Class Objects
+bluedisc = Disc(7, 7, WIDTH-120, HEIGHT/2, 'Disc_Wars/assets/BlueTronRing_1.png', 'blue')
+orangedisc = Disc(7, 7, 120, HEIGHT/2, 'Disc_Wars/assets/OrangeTronRing_1.png', 'orange')
+blueplayer = Player(WIDTH- 50, HEIGHT/2, 0, 'blue', 'Disc_Wars/assets/BlueTronGuy_2.png')
+orangeplayer = Player(120, HEIGHT/2, 0, 'orange','Disc_Wars/assets/TronGuyOrange_1.png')
 
 
 
 
-    
 while True:
     for event in p.event.get():
         if event.type == p.QUIT:
             p.quit()
             sys.exit()
     # player moveset
+        print(f'y {blueplayer.y}, speed {blueplayer.speed}, HEIGHT {HEIGHT}, bottom_rect {blueplayer.rect.bottom}')
         if event.type == p.KEYDOWN:
             if event.key == p.K_DOWN:
-                player_speed += 7 
+                blueplayer.speed += 7
             if event.key == p.K_UP: 
-                player_speed -= 7    
+               blueplayer.speed -= 7
         if event.type == p.KEYUP:
             if event.key == p.K_DOWN:
-                player_speed -= 7    
+                blueplayer.y -= 7 
             if event.key == p.K_UP:
-                player_speed += 7     
+               blueplayer.y += 7
         # opponent moveset 
         if event.type == p.KEYDOWN:
             if event.key == p.K_s:
-                opponent_speed += 7 
+                orangeplayer.move('down') 
             if event.key == p.K_w: 
-                opponent_speed -= 7    
+                orangeplayer.move('up')   
         if event.type == p.KEYUP:
             if event.key == p.K_s:
-                opponent_speed -= 7    
+                orangeplayer.move('up')   
             if event.key == p.K_w:
-                opponent_speed += 7     
+                orangeplayer.move('down') 
             
-    opponent_animation(orangeuser_rect)
-    player_animation(blueuser_rect)
-    disc_animation(bluedisc_rect)
-                       
+    blueplayer.player_animation()
+    orangeplayer.player_animation()
+    bluedisc.disc_animation()
+    orangedisc.disc_animation()
+
 #visuals
     screen.fill(BLACK)
-    screen.blit(orangedisc_surf,orangedisc_rect)
-    screen.blit(bluedisc_surf,bluedisc_rect)
-    screen.blit(orangeuser_surf,orangeuser_rect)
-    screen.blit(blueuser_surf,blueuser_rect)
-   
+    bluedisc.display(screen)
+    orangedisc.display(screen)
+    orangeplayer.display(screen)
+    blueplayer.display(screen)
+        
     p.draw.aaline(screen,WHITE,start_pos=(WIDTH/2,0),end_pos=(WIDTH/2,HEIGHT))
-    
-
-
-
-
-
-
-
-
-
-
-
     p.display.flip()
     clock.tick(TICKSPEED)
-
-    
-
-
-
-
-
